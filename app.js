@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
-const { errors, Joi, celebrate } = require('celebrate');
+const { errors } = require('celebrate');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const usersRouter = require('./routes/users');
@@ -13,11 +13,16 @@ const { createUser, login } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 
 const {
+  signUpСheck,
+  signInСheck,
+} = require('./middlewares/validations');
+
+const {
   PORT,
   NODE_ENV,
   MONGO_URL,
   MONGO_URL_DEV,
-} = process.env;
+} = require('./utils/const');
 
 const app = express();
 
@@ -38,20 +43,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // подключаем логер запросов
 app.use(requestLogger);
 
-app.post('/signup', celebrate({
-  body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
-    email: Joi.string().required().email(),
-    password: Joi.string().required(),
-  }),
-}), createUser);
+app.post('/signup', signUpСheck, createUser);
 
-app.post('/signin', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required(),
-  }),
-}), login);
+app.post('/signin', signInСheck, login);
 
 app.use(auth);
 
