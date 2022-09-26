@@ -52,7 +52,7 @@ module.exports.login = (req, res, next) => {
       return res.status(200).send({ token });
     })
     .catch((err) => {
-      if (err.name === 'BadRequest') {
+      if (err.name === 'ValidationError') {
         return next(new BadRequestError('Введены не корректные данные.'));
       }
       return next(err);
@@ -83,10 +83,11 @@ module.exports.updateUser = (req, res, next) => {
     })
     .then((user) => res.status(200).send(user))
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные пользователя.'));
-      } else {
-        next(err);
+      if (err.code === 11000) {
+        return next(new ConflictError(`Пользователь ${email} уже существует.`));
+      } if (err.name === 'ValidationError') {
+        return next(new BadRequestError('Введены не корректные данные.'));
       }
+      return next(err);
     });
 };

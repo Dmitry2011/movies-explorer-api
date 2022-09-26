@@ -24,11 +24,11 @@ const createMovieCheck = celebrate({
     year: Joi.string().required(),
     description: Joi.string().required(),
     image: Joi.string().required().regex(UrlRegularExpression),
-    trailer: Joi.string().required().regex(UrlRegularExpression),
+    trailerLink: Joi.string().required().regex(UrlRegularExpression),
     nameRU: Joi.string().required().regex(RuRegularExpression),
     nameEN: Joi.string().required().regex(EnRegularExpression),
     thumbnail: Joi.string().required().regex(UrlRegularExpression),
-    movieId: Joi.string().required().length(24).hex(),
+    movieId: Joi.number().required(),
   }),
 });
 
