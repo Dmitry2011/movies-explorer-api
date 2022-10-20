@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { UrlRegularExpression, RuRegularExpression, EnRegularExpression } = require('../errors/regularExpression');
+const { UrlRegularExpression } = require('../errors/regularExpression');
 
 const movieSchema = new mongoose.Schema({
   country: {
@@ -61,20 +61,10 @@ const movieSchema = new mongoose.Schema({
   nameRU: {
     type: String,
     required: true,
-    validate: {
-      validator(value) {
-        return RuRegularExpression.test(value);
-      },
-    },
   },
   nameEN: {
     type: String,
     required: true,
-    validate: {
-      validator(value) {
-        return EnRegularExpression.test(value);
-      },
-    },
   },
 });
 

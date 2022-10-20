@@ -1,5 +1,5 @@
 const { celebrate, Joi } = require('celebrate');
-const { UrlRegularExpression, RuRegularExpression, EnRegularExpression } = require('../errors/regularExpression');
+const { UrlRegularExpression } = require('../errors/regularExpression');
 
 const signUpСheck = celebrate({
   body: Joi.object().keys({
@@ -25,8 +25,8 @@ const createMovieCheck = celebrate({
     description: Joi.string().required(),
     image: Joi.string().required().regex(UrlRegularExpression),
     trailerLink: Joi.string().required().regex(UrlRegularExpression),
-    nameRU: Joi.string().required().regex(RuRegularExpression),
-    nameEN: Joi.string().required().regex(EnRegularExpression),
+    nameRU: Joi.string().required(),
+    nameEN: Joi.string().required(),
     thumbnail: Joi.string().required().regex(UrlRegularExpression),
     movieId: Joi.number().required(),
   }),

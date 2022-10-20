@@ -41,9 +41,9 @@ module.exports.createMovie = (req, res, next) => {
     });
 };
 
-// Получение фильмов
+// Получение фильмов сохраненных текущим пользователем
 module.exports.getMovies = (req, res, next) => {
-  Movie.find({})
+  Movie.find({ owner: req.user._id })
     .then((movies) => res.send(movies))
     .catch(next);
 };
